@@ -1,0 +1,62 @@
+Metadata-Version: 2.4
+Name: backend
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: flask>=3.0.0
+Requires-Dist: flask-cors>=5.0.0
+Requires-Dist: numpy>=1.24.0
+Requires-Dist: pillow>=10.0.0
+Requires-Dist: tensorflow>=2.13.0
+
+## Flask API – Intelligent Sortering
+
+Denna server laddar en tränad TensorFlow-/Teachable Machine-modell (`keras_model.h5`) och exponerar ett enkelt API för att klassificera uppladdade bilder (t.ex. plast, papper, metall).
+
+### Kom igång
+
+1. Skapa ett virtuellt Python-miljö (`python -m venv .venv` och aktivera den).
+2. Installera beroenden:
+
+   ```bash
+   pip install -e .
+   ```
+
+3. Starta API:t:
+
+   ```bash
+   python main.py
+   ```
+
+API:t körs på `http://localhost:5000`.
+
+### Endpoints
+
+- `GET /health` – snabb statuskontroll.
+- `POST /predict` – tar emot `multipart/form-data` med nyckeln `file`. Returnerar:
+
+  ```json
+  {
+    "category": "Plast",
+    "confidence": 0.92,
+    "predictions": [
+      {"label": "Plast", "confidence": 0.92},
+      {"label": "Metall", "confidence": 0.06},
+      {"label": "Papper", "confidence": 0.02}
+    ]
+  }
+  ```
+
+### Data & Modell
+
+- Lägg minst 50 träningsbilder per kategori i `data/train/<kategori>/`.
+- Lägg testdata i `data/test/<kategori>/`.
+- Träna modellen i Teachable Machine eller TensorFlow och exportera till `keras_model.h5`.
+- Lista klasser i `labels.txt` (en rad per klass enligt formatet `0 plast`).
+
+### Vidareutveckling
+
+- Mät noggrannhet genom att köra testmappen mot API:t och spara resultat i rapporten.
+- Lägg till visualiseringar/grafer eller förklaringar av modellen i frontend-applikationen.
+
